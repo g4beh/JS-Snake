@@ -2,13 +2,26 @@ const playBoard = document.querySelector(".play-board");
 const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".high-score");
 
-let gameOver = false;
+// Variables
+let game_over = false;
 let foodX, foodY;
+
+// Punto de aparicion del snake
 let snakeX = 5, snakeY = 10;
-let snakeBody = [];
-let velocityX = 0, velocityY = 0;
+
+// Las posiciones del cuerpo de la serpiente se guardan en una lista
+let snake_body = [];
+
+// Variables que controlan hacia donde se mueve el snake, inicia en cero porque inicialmente no se mueve
+let movement_x = 0, movement_y = 0;
+
+// El id del intervalo
 let setIntervalId;
+
+// El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
+
+// El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
 let highScore = localStorage.getItem("high-score") || 0;
 highScoreElement.innerHTML = `High Score: ${highScore}`;
 
@@ -28,41 +41,41 @@ const handleGameOver = () => {
     alert("Game Over");
     location.reload(); //  recargar la página actual. Al llamar a location.reload()la página se volverá a cargar y reiniciará el juego.
 }
-// la función changeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables velocityX y velocityY para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
+// la función changeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables movement_x y movement_y para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
 const changeDirection = (event) => {
     // console.log(e);
     //  Esta condición verifica si la tecla presionada es la flecha hacia arriba (ArrowUp)
     // si la velocidad en el eje Y no es igual a 1 
     //Si ambas condiciones son verdaderas, se ejecuta el bloque de código dentro de esta condición.
-    if (event.key === "ArrowUp" && velocityY != 1) {
+    if (event.key === "ArrowUp" && movement_y != 1) {
         
-        velocityX = 0;//establece la velocidad en el eje X a 0, lo que significa que no hay movimiento horizontal.
-        velocityY = -1;//establece la velocidad en el eje Y a -1, lo que significa que el movimiento es hacia arriba.
+        movement_x = 0;//establece la velocidad en el eje X a 0, lo que significa que no hay movimiento horizontal.
+        movement_y = -1;//establece la velocidad en el eje Y a -1, lo que significa que el movimiento es hacia arriba.
     
         //Esta condición verifica si la tecla presionada es la flecha hacia abajo ,y si la velocidad en el eje X no es igual a -1
-     } else if (event.key === "ArrowDown" && velocityY != -1) {
-        velocityX = 0;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
-        velocityY = 1;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
-     } else if (event.key === "ArrowLeft" && velocityX != 1) {
-        velocityX = -1;
-        velocityY = 0;
-     } else if (event.key === "ArrowRight" && velocityX != -1) {
-        velocityX = 1;
-        velocityY = 0;
+     } else if (event.key === "ArrowDown" && movement_y != -1) {
+        movement_x = 0;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
+        movement_y = 1;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
+     } else if (event.key === "ArrowLeft" && movement_x != 1) {
+        movement_x = -1;
+        movement_y = 0;
+     } else if (event.key === "ArrowRight" && movement_x != -1) {
+        movement_x = 1;
+        movement_y = 0;
      } 
      
     //  initGame();
 }
 // verifica si el juego ha terminado antes de inicializarlo
 const initGame = () => {
-    //Si la variable gameOver es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
-    if(gameOver) return handleGameOver ();//una declaración if ,se utiliza para salir inmediatamente de la función initGame y detener cualquier otro proceso de inici 
+    //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
+    if(game_over) return handleGameOver ();//una declaración if ,se utiliza para salir inmediatamente de la función initGame y detener cualquier otro proceso de inici 
 
     let hmtlMarkup = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
-// snakeBody.push([foodX, foodY]);: Se agrega un nuevo elemento a la matriz 
+// snake_body.push([foodX, foodY]);: Se agrega un nuevo elemento a la matriz 
     if(snakeX === foodX && snakeY === foodY){
         changeFoodPosition();
-        snakeBody.push([foodX, foodY]);
+        snake_body.push([foodX, foodY]);
         // score++Se incrementa la puntuacion del jugador en 1
         score ++;
         // Aquí se crea una instancia de Audio y se le pasa el archivo de sonido  y se pasa play para reproducir 
@@ -105,23 +118,23 @@ const initGame = () => {
         highScoreElement.innerHTML = `High Score: ${highScore}`;
     }
     
-    for(let i = snakeBody.length - 1; i > 0; i--){
-        snakeBody[i] = snakeBody[i - 1]
+    for(let i = snake_body.length - 1; i > 0; i--){
+        snake_body[i] = snake_body[i - 1]
     }
 
-    snakeBody[0] = [snakeX, snakeY];
+    snake_body[0] = [snakeX, snakeY];
 
-    snakeX += velocityX;
-    snakeY += velocityY;
+    snakeX += movement_x;
+    snakeY += movement_y;
 
     if (snakeX <= 0 || snakeX > 30 || snakeY <= 0 || snakeY > 30) {
-      gameOver = true; 
+      game_over = true; 
     }
 
-    for(let i = 0; i < snakeBody.length; i++){
-        hmtlMarkup += `<div class="head" style="grid-area: ${snakeBody[i][1]} / ${snakeBody[i][0]}"></div>`;
-        if(i !== 0 && snakeBody[0][1] === snakeBody[i][1] && snakeBody[0][0] === snakeBody[i][0]){
-            gameOver = true;
+    for(let i = 0; i < snake_body.length; i++){
+        hmtlMarkup += `<div class="head" style="grid-area: ${snake_body[i][1]} / ${snake_body[i][0]}"></div>`;
+        if(i !== 0 && snake_body[0][1] === snake_body[i][1] && snake_body[0][0] === snake_body[i][0]){
+            game_over = true;
         }
 
     }
