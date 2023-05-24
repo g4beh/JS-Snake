@@ -89,37 +89,7 @@ const initGame = () => {
         score ++;
         //el audio almacenado en el objeto audio y se play iniciar music
         audio.play() 
-        if (  sonidos.innerHTML = src="el prostipirugolfo.mp3" ){ //condición verifica si el contenido HTML de un elemento con el id sonidos tiene un atributo src
-            function aleatorio(inferior,superior){// Esta línea calcula el número de posibilidades dentro del rango especificado restando
-                numPosibilidades = superior - inferior
-                aleat = Math.random() * numPosibilidades // genera un número aleatorio entre 0 (inclusive) y numPosibilidades (no inclusivo) utilizando Math.random()
-                aleat = Math.floor(aleat) //redondea el número aleatorio hacia abajo utilizando Math.floor() para obtener un número entero.
-                return parseInt(inferior) + aleat//Esta línea devuelve el número aleatorio generado sumado al valor inferior (convertido en entero utilizando parseInt()). Esto garantiza que el número aleatorio caiga dentro del rango especificado por inferior y superior.
-             }
-             hexadecimal = new Array("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F")
-             // lo aguarda en posarray 
-             posarray = aleatorio(0,hexadecimal.length)
-             valor_hexadecimal_aleatorio = hexadecimal[posarray]
         
-             hexadecimal = new Array("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F")
-        color_aleatorio = "#";
-        for (i=0;i<6;i++){
-           posarray = aleatorio(0,hexadecimal.length)
-           color_aleatorio += hexadecimal[posarray]
-        }
-        function dame_color_aleatorio(){
-            hexadecimal = new Array("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F")
-            // "#" que representa el inicio de un color hexadecimal
-            color_aleatorio = "#";
-            //bucle for que se ejecuta 6 veces (para generar 6 digitos hexadecimales que representan el color RGB).
-            for (i=0;i<6;i++){
-                // 0 y la longitud del array hexadecimal utilizando la funcion aleatorio.
-               posarray = aleatorio(0,hexadecimal.length)
-               color_aleatorio += hexadecimal[posarray]
-            }
-            return color_aleatorio
-         }
-        }
         highScore =  score >= highScore ? score : highScore;
         localStorage.setItem("high-score", highScore);
         scoreElement.innerHTML = `Score: ${score}`
