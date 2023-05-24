@@ -35,7 +35,6 @@ let high_score = localStorage.getItem("high-score") || 0;
 // Establece la cadena de texto contenida en este elemeto
 highScoreElement.innerHTML = `High Score: ${high_score}`;
 
-
 /*-------------------------------- FUNCIONES -------------------------------------------*/
 // Genera coordenadas X e Y aleatorias para un alimento dentro de una cuadricula
 const changeFoodPosition = function() {
@@ -104,33 +103,39 @@ const ifAppleEaten = function() {
     }
 }
 
+// Esta funcion chequea si la serpiente se sale del tablero y que deberia pasar cuando lo hace
+const ifSnakeOutOfBounds = function(){
+    //  límites del tablero  , la variable "gameOver" se establece en verdadero (true).
+    if (snake_position_x <= 0 || snake_position_x > 30 || snake_position_y <= 0 || snake_position_y > 30) {
+        game_over = true; 
+
+    }
+
+    // está fuera de los límites del tablero
+    snake_body[0] = [snake_position_x, snake_position_y];
+}
+
 // verifica si el juego ha terminado antes de inicializarlo
 const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
     if(game_over) handleGameOver();
-
+    
     // es una division HTML que se refiere a la comida y donde estara posicionada utilizando grid area
     // la division de play-board debe contener el atributo display en grid para que funcione
     let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
     // snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
-
+    
     ifAppleEaten()
     
     for(let i = snake_body.length - 1; i > 0; i--){
         snake_body[i] = snake_body[i - 1]
     }
-
-    // está fuera de los límites del tablero
-    snake_body[0] = [snake_position_x, snake_position_y];
-
+    
+    ifSnakeOutOfBounds()
+    
     snake_position_x += movement_x;
     snake_position_y += movement_y;
-
-    //  límites del tablero  , la variable "gameOver" se establece en verdadero (true).
-    if (snake_position_x <= 0 || snake_position_x > 30 || snake_position_y <= 0 || snake_position_y > 30) {
-      game_over = true; 
-    }
-
+    
     //un bucle "for" para crear y mostrar cada segmento cuerpo serpiente
     for(let i = 0; i < snake_body.length; i++){
         hmtlMarkup += `<div class="head" style="grid-area: ${snake_body[i][1]} / ${snake_body[i][0]}"></div>`;
