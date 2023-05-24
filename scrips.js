@@ -1,38 +1,47 @@
+/*-------------------------------- CONSTANTES -------------------------------------------*/
+// Ruta de los archivos de sonido
+const shot_audio_path = "./Assets/RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3"
+const game_audio = "./Assets/el prostipirugolfo.mp3"
+// Obtiene el primer elemento con la clase ".play-board"
 const playBoard = document.querySelector(".play-board");
+// Obtiene el primer elemento con la clase ".score"
 const scoreElement = document.querySelector(".score");
+// Obtiene el primer elemento con la clase ".high-score"
 const highScoreElement = document.querySelector(".high-score");
+// Aquí se crea una instancia de Audio y se le pasa el archivo de sonido
+const audio = new Audio(shot_audio_path); 
+/*-------------------------------- VARIABLES -------------------------------------------*/
 
-// Variables
+// variable que controla el estado de game over
 let game_over = false;
+// posiciones de la comida
 let foodX, foodY;
-
 // Punto de aparicion del snake
 let snakeX = 5, snakeY = 10;
-
 // Las posiciones del cuerpo de la serpiente se guardan en una lista
 let snake_body = [];
-
 // Variables que controlan hacia donde se mueve el snake, inicia en cero porque inicialmente no se mueve
 let movement_x = 0, movement_y = 0;
-
 // El id del intervalo
 let setIntervalId;
-
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
-
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
 let highScore = localStorage.getItem("high-score") || 0;
+// Establece la cadena de texto contenida en este elemeto, aqui se actualiza el puntaje
 highScoreElement.innerHTML = `High Score: ${highScore}`;
 
-// genera coordenadas X e Y aleatorias para un alimento dentro de una cuadricula
+
+/*-------------------------------- FUNCIONES -------------------------------------------*/
+// Genera coordenadas X e Y aleatorias para un alimento dentro de una cuadricula
 const changeFoodPosition = () => {
-//genera un numero aleatorio entre 0 y 29 utilizando Math.random()
+// Genera un numero aleatorio entre 0 y 29 utilizando Math.random()
     foodX = Math.floor(Math.random() * 30) + 1;
-    //genera un número aleatorio para la coordenada Y del alimento. Sigue el mismo proceso que foodX para generar un número aleatorio entre 1 y 30, que se asigna a la variable foodY.
+    // Genera un número aleatorio para la coordenada Y del alimento. Sigue el mismo proceso que foodX para generar un número aleatorio entre 1 y 30, que se asigna a la variable foodY.
     foodY = Math.floor(Math.random() * 30) + 1;
 }
 
+// 
 const handleGameOver = () => {
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
     //El parámetro setIntervalId hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
@@ -78,8 +87,8 @@ const initGame = () => {
         snake_body.push([foodX, foodY]);
         // score++Se incrementa la puntuacion del jugador en 1
         score ++;
-        // Aquí se crea una instancia de Audio y se le pasa el archivo de sonido  y se pasa play para reproducir 
-        const audio = new Audio("RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3"); audio. play() //el audio almacenado en el objeto audio y se play iniciar music
+        //el audio almacenado en el objeto audio y se play iniciar music
+        audio.play() 
         if (  sonidos.innerHTML = src="el prostipirugolfo.mp3" ){ //condición verifica si el contenido HTML de un elemento con el id sonidos tiene un atributo src
             function aleatorio(inferior,superior){// Esta línea calcula el número de posibilidades dentro del rango especificado restando
                 numPosibilidades = superior - inferior
