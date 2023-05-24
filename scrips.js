@@ -41,7 +41,7 @@ const changeFoodPosition = function() {
     foodY = Math.floor(Math.random() * 30) + 1;
 }
 
-// 
+// Esta funcion maneja 
 const handleGameOver = function() {
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
     //El parámetro setIntervalId hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
@@ -130,13 +130,4 @@ setIntervalId = setInterval(initGame, 150);
 document.addEventListener("keydown", changeDirection);
 
 
-
-/*const sonidos = document.getElementById( "sonido"); [
-    document.addEventListener("arrowUp", function(evento) {
-    if (evento.KeyCode == 32){
-    sonidos.innerHTML = <audio src="RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3" autoplay></audio>;
-    }
-    })
-    ]
-*/
  
