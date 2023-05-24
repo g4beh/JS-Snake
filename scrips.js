@@ -116,8 +116,7 @@ const ifSnakeOutOfBounds = function(){
 // verifica si el juego ha terminado antes de inicializarlo
 const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
-    if(game_over) handleGameOver();
-    
+    if(game_over) return handleGameOver();
     // es una division HTML que se refiere a la comida y donde estara posicionada utilizando grid area
     // la division de play-board debe contener el atributo display en grid para que funcione
     let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
@@ -129,14 +128,14 @@ const initGame = function() {
         snake_body[i] = snake_body[i - 1]
     }
     
-    ifSnakeOutOfBounds()
-    
     // está fuera de los límites del tablero
     snake_body[0] = [snake_position_x, snake_position_y];
-
+    
     snake_position_x += movement_x;
     snake_position_y += movement_y;
     
+    ifSnakeOutOfBounds()
+
     //un bucle "for" para crear y mostrar cada segmento cuerpo serpiente
     for(let i = 0; i < snake_body.length; i++){
         hmtlMarkup += `<div class="head" style="grid-area: ${snake_body[i][1]} / ${snake_body[i][0]}"></div>`;
