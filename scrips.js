@@ -113,46 +113,53 @@ const ifSnakeOutOfBounds = function(){
 
 }
 
-// verifica si el juego ha terminado antes de inicializarlo
-const initGame = function() {
-    //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
-    if(game_over) return handleGameOver();
+// Esta funcion se encarga de actualizar la serpiente
+const updateSnakeAndApple = function(){
     // es una division HTML que se refiere a la comida y donde estara posicionada utilizando grid area
     // la division de play-board debe contener el atributo display en grid para que funcione
     let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
     // snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
-    
-    ifAppleEaten()
-    
+
     for (let i = snake_body.length - 1; i > 0; i--){
         snake_body[i] = snake_body[i - 1]
     }
     
-    // está fuera de los límites del tablero
     snake_body[0] = [snake_position_x, snake_position_y];
-    
+
     snake_position_x += movement_x;
     snake_position_y += movement_y;
     
-    ifSnakeOutOfBounds()
-
     //un bucle "for" para crear y mostrar cada segmento cuerpo serpiente
     for(let i = 0; i < snake_body.length; i++){
         hmtlMarkup += `<div class="head" style="grid-area: ${snake_body[i][1]} / ${snake_body[i][0]}"></div>`;
         if(i !== 0 && snake_body[0][1] === snake_body[i][1] && snake_body[0][0] === snake_body[i][0]){
             game_over = true;
         }
-
+        
     }
+
     // "playBoard" con la cadena de plantilla (template string) "hmtlMarkup", que contiene los elementos HTML que representan la cabeza y el cuerpo de la serpiente.
     playBoard.innerHTML = hmtlMarkup;
 }
 
+// verifica si el juego ha terminado antes de inicializarlo
+const gameLoop = function() {
+    //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
+    if(game_over) return handleGameOver();
+    
+    ifAppleEaten()
+    updateSnakeAndApple()
+    ifSnakeOutOfBounds()
+    
+}
 
-changeFoodPosition(); 
-// initGame();
-interval_id = setInterval(initGame, delay_interval);
-document.addEventListener("keydown", changeSnakeDirection);
+const init = function() {
+    changeFoodPosition(); 
+    // GameLoop();
+    interval_id = setInterval(GameLoop, delay_interval);
+    document.addEventListener("keydown", changeSnakeDirection);
+
+}
 
 
  
