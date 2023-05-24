@@ -1,59 +1,83 @@
 * {
+    /*Establece el margen exterior de un elemento a 0 */
     margin: 0;
+    /* Establece el relleno interior de un elemento a 0 */
     padding: 0;
+    /*Define el modelo de caja a utilizar para el calculo del ancho y alto de un elemento. Con border-box*/
     box-sizing: border-box;
+    /* la fuente a utilizar , especifica sans-serif es un estilo de fuente limpia  */
     font-family: sans-serif;
 }
 
 body{
+    /* Muestra como se acomoda el cuerpo en pantalla, otra opcion es seleccionar grid*/
     display: flex;
+    /*Alinear elementos: centro*/
     align-items: center;
+    /*justificar contenido: centro*/
     justify-content: center;
+    /*al 100% de la altura de la ventana*/
+    /* background-color: red;*/
     min-height: 100vh;
-   /* background-color: red;*/
-   background-image: url("./3Msf.gif");
+   /*se utiliza para establecer una imagen de fondo  utilizando el url*/
+   background-image: url("./Assets/3Msf.gif");
 }
 
+/*: Establece el ancho del elemento wrapper , vmin se refiere al tamaño disp tanto horiz como verti.*/
 .wrapper{
+    /*Establece la altura del elemento wrapper*/
     width: 65vmin;
+    /*Establece la altura del elemento wrapper*/
     height: 70vmin;
+    /*controlar el diseño y la alineación*/
     display: flex;
+    /*  Oculta cualquier contenido que se desborde del elemento */
     overflow: hidden;
+    /*dirección de la disposición de los elementos */
     flex-direction: column;
+    /* Establece el radio de las esquinas , quedan esquinas redondeadas*/
     border-radius: 5px;
+    /*stablece el color de fondo del wrapper*/
     background-color: #293447;
 }
 
 .game-details{
+    /* Establece el color del texto dentro del elemento game-details8*/
     color: #b8c6dc;
+    /* Establece el tamaño de fuente del texto dentro del elemento game-details a 1.2*/
     font-size: 1.2rem;
+    /* Establece el grosor de la fuente del texto dentro del elemento */
     font-weight: 500;
+    /*relleno de la interfaz:*/
     padding: 20px 27px;
+    /*para controlar el diseño y la alineación de los elementos hijos del game-details*/
     display: flex;
+    /*Alinea los elementos (de manera que haya un espacio igual entre ellos.). distribuirán horizontalmente con un espacio equitativo entre ellos.*/
     justify-content: space-between;
 }
 
 .play-board{
     /* background-image: url("./img/paisaje.jpeg");         asi se inserta una imagen en css */
+    /* Establece el ancho del play-board*/
     width: 100%;
+    /*Establece la altura del play-board*/
     height: 100%;
+    /*Establece la altura del play-board*/
     background-color: #212837;
+    /* para controlar el diseño y la alineación*/
     display: grid;
+    /* Establece la plantilla de cuadrícula para el play-board. En este caso, crea una cuadrícula de 30 filas y 30 columnas*/
     grid-template: repeat(30, 1fr) / repeat(30, 1fr);    
 }
 
 /* Aqui se cambia el color de la fruta */
 .play-board .food {
     background-color: #ff003d;
-   
 
-    
 }
 
 /* Aqui se cambia el color de la serpiente*/
 .play-board .head {
     background-color: #60cbff;
-
-
 }
 

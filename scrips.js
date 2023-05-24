@@ -2,11 +2,11 @@
 // Ruta de los archivos de sonido
 const shot_audio_path = "./Assets/RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3"
 const game_audio = "./Assets/el prostipirugolfo.mp3"
-// Obtiene el primer elemento con la clase ".play-board"
+// Obtiene el primer elemento de html con la clase ".play-board"
 const playBoard = document.querySelector(".play-board");
-// Obtiene el primer elemento con la clase ".score"
+// Obtiene el primer elemento de html con la clase ".score"
 const scoreElement = document.querySelector(".score");
-// Obtiene el primer elemento con la clase ".high-score"
+// Obtiene el primer elemento de html con la clase ".high-score"
 const highScoreElement = document.querySelector(".high-score");
 // Aquí se crea una instancia de Audio y se le pasa el archivo de sonido
 const audio = new Audio(shot_audio_path); 
@@ -101,15 +101,18 @@ const initGame = () => {
         snake_body[i] = snake_body[i - 1]
     }
 
+    // está fuera de los límites del tablero
     snake_body[0] = [snakeX, snakeY];
 
     snakeX += movement_x;
     snakeY += movement_y;
 
+    //  límites del tablero  , la variable "gameOver" se establece en verdadero (true).
     if (snakeX <= 0 || snakeX > 30 || snakeY <= 0 || snakeY > 30) {
       game_over = true; 
     }
 
+    //un bucle "for" para crear y mostrar cada segmento cuerpo serpiente
     for(let i = 0; i < snake_body.length; i++){
         hmtlMarkup += `<div class="head" style="grid-area: ${snake_body[i][1]} / ${snake_body[i][0]}"></div>`;
         if(i !== 0 && snake_body[0][1] === snake_body[i][1] && snake_body[0][0] === snake_body[i][0]){
@@ -117,6 +120,7 @@ const initGame = () => {
         }
 
     }
+    // "playBoard" con la cadena de plantilla (template string) "hmtlMarkup", que contiene los elementos HTML que representan la cabeza y el cuerpo de la serpiente.
     playBoard.innerHTML = hmtlMarkup;
 }
 
