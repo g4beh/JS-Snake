@@ -27,12 +27,12 @@ let movement_x = 0, movement_y = 0;
 // El id del intervalo
 let interval_id;
 // El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
-let delay_interval = 300;
+let delay_interval = 100;
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
 let high_score = localStorage.getItem("high-score") || 0;
-// Establece la cadena de texto contenida en este elemeto, aqui se actualiza el puntaje
+// Establece la cadena de texto contenida en este elemeto
 highScoreElement.innerHTML = `High Score: ${high_score}`;
 
 
@@ -82,30 +82,39 @@ const changeSnakeDirection = function(event){
     } 
 }
 
+// Esta funcion chequea si se ha consumido una manzana y que deberia pasar cuando pasa eso
+const ifAppleEaten = function() {
+    if(snake_position_x === food_position_x && snake_position_y === food_position_y){
+        //el audio almacenado en el objeto audio y se play iniciar music
+        audio_shot.play()
+        //Introduce una nueva posicion en el snake para hacerla mas grande, en este caso se añade la posicion de la comida 
+        snake_body.push([food_position_x, food_position_y]);
+        // score++ Se incrementa la puntuacion del jugador en 1
+        score ++;
+        // Si el puntaje es mayor a el mayor puntaje guardado se le asigna ese nuevo puntaje, de lo contrario se deja igual
+        high_score =  score >= high_score ? score : high_score;
+        // Aqui se actualiza el valor del elemeto
+        localStorage.setItem(highScoreElement, high_score);
+        // Aqui se va modificando el elemento score, actualizando el texto cada que se consume una fruta
+        scoreElement.innerHTML = `Score: ${score}`;
+        // Si se modifica la variable high-score tambien debe actulizarse el elemento highScore
+        highScoreElement.innerHTML = `High Score: ${high_score}`;
+        // Debe cambiarse la posicion de la nueva manzana
+        changeFoodPosition();
+    }
+}
+
 // verifica si el juego ha terminado antes de inicializarlo
 const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
     if(game_over) handleGameOver();
-    
+
     // es una division HTML que se refiere a la comida y donde estara posicionada utilizando grid area
     // la division de play-board debe contener el atributo display en grid para que funcione
     let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
     // snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
 
-    if(snake_position_x === food_position_x && snake_position_y === food_position_y){
-        changeFoodPosition();
-        snake_body.push([food_position_x, food_position_y]);
-        // score++Se incrementa la puntuacion del jugador en 1
-        score ++;
-        //el audio almacenado en el objeto audio y se play iniciar music
-        audio_shot.play() 
-        
-        high_score =  score >= high_score ? score : high_score;
-        localStorage.setItem("high-score", high_score);
-        scoreElement.innerHTML = `Score: ${score}`
-
-        highScoreElement.innerHTML = `High Score: ${high_score}`;
-    }
+    ifAppleEaten()
     
     for(let i = snake_body.length - 1; i > 0; i--){
         snake_body[i] = snake_body[i - 1]
