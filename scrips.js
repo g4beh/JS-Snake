@@ -34,7 +34,7 @@ highScoreElement.innerHTML = `High Score: ${highScore}`;
 
 /*-------------------------------- FUNCIONES -------------------------------------------*/
 // Genera coordenadas X e Y aleatorias para un alimento dentro de una cuadricula
-const changeFoodPosition = () => {
+const changeFoodPosition = function() {
 // Genera un numero aleatorio entre 0 y 29 utilizando Math.random()
     foodX = Math.floor(Math.random() * 30) + 1;
     // Genera un número aleatorio para la coordenada Y del alimento. Sigue el mismo proceso que foodX para generar un número aleatorio entre 1 y 30, que se asigna a la variable foodY.
@@ -42,16 +42,15 @@ const changeFoodPosition = () => {
 }
 
 // 
-const handleGameOver = () => {
+const handleGameOver = function() {
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
     //El parámetro setIntervalId hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
     clearInterval (setIntervalId);
     // alert("Game Over");: Esta línea muestra una ventana emergente (alerta) con el mensaje "Game Over". La función alert() se utiliza para mostrar un mensaje en una ventana de diálogo simple en el navegador.
-    alert("Game Over");
     location.reload(); //  recargar la página actual. Al llamar a location.reload()la página se volverá a cargar y reiniciará el juego.
 }
 // la función changeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables movement_x y movement_y para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
-const changeDirection = (event) => {
+const changeDirection = function(event){
     // console.log(e);
     //  Esta condición verifica si la tecla presionada es la flecha hacia arriba (ArrowUp)
     // si la velocidad en el eje Y no es igual a 1 
@@ -76,7 +75,7 @@ const changeDirection = (event) => {
     //  initGame();
 }
 // verifica si el juego ha terminado antes de inicializarlo
-const initGame = () => {
+const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
     if(game_over) return handleGameOver ();//una declaración if ,se utiliza para salir inmediatamente de la función initGame y detener cualquier otro proceso de inici 
 
@@ -129,6 +128,7 @@ changeFoodPosition();
 // initGame();
 setIntervalId = setInterval(initGame, 150);
 document.addEventListener("keydown", changeDirection);
+
 
 
 /*const sonidos = document.getElementById( "sonido"); [
