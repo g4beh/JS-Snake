@@ -111,8 +111,6 @@ const ifSnakeOutOfBounds = function(){
 
     }
 
-    // está fuera de los límites del tablero
-    snake_body[0] = [snake_position_x, snake_position_y];
 }
 
 // verifica si el juego ha terminado antes de inicializarlo
@@ -127,12 +125,15 @@ const initGame = function() {
     
     ifAppleEaten()
     
-    for(let i = snake_body.length - 1; i > 0; i--){
+    for (let i = snake_body.length - 1; i > 0; i--){
         snake_body[i] = snake_body[i - 1]
     }
     
     ifSnakeOutOfBounds()
     
+    // está fuera de los límites del tablero
+    snake_body[0] = [snake_position_x, snake_position_y];
+
     snake_position_x += movement_x;
     snake_position_y += movement_y;
     
