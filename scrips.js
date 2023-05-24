@@ -1,7 +1,8 @@
 /*-------------------------------- CONSTANTES -------------------------------------------*/
 // Ruta de los archivos de sonido
-const shot_audio_path = "./Assets/RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3"
-const game_audio = "./Assets/el prostipirugolfo.mp3"
+const shot_audio_path = "./Assets/RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3";
+const game_audio_path = "./Assets/el prostipirugolfo.mp3";
+const apear_snake_audio_path = "./Assets/negative_beeps-6008.mp3"
 // Obtiene el primer elemento de html con la clase ".play-board"
 const playBoard = document.querySelector(".play-board");
 // Obtiene el primer elemento de html con la clase ".score"
@@ -9,7 +10,8 @@ const scoreElement = document.querySelector(".score");
 // Obtiene el primer elemento de html con la clase ".high-score"
 const highScoreElement = document.querySelector(".high-score");
 // Aquí se crea una instancia de Audio y se le pasa el archivo de sonido
-const audio = new Audio(shot_audio_path); 
+const audio_shot = new Audio(shot_audio_path); 
+const audio_start = new Audio(apear_snake_audio_path)
 /*-------------------------------- VARIABLES -------------------------------------------*/
 
 // variable que controla el estado de game over
@@ -25,7 +27,7 @@ let movement_x = 0, movement_y = 0;
 // El id del intervalo
 let interval_id;
 // El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
-let delay_interval = 150
+let delay_interval = 300;
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
@@ -49,47 +51,54 @@ const handleGameOver = function() {
     //El parámetro interval_id hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
     clearInterval(interval_id);
     // alert("Game Over");: Esta línea muestra una ventana emergente (alerta) con el mensaje "Game Over". La función alert() se utiliza para mostrar un mensaje en una ventana de diálogo simple en el navegador.
-    location.reload(); //  recargar la página actual. Al llamar a location.reload()la página se volverá a cargar y reiniciará el juego.
+    alert("Game Over");
+    //  recargar la página actual. Al llamar a location.reload()la página se volverá a cargar y reiniciará el juego.
+    location.reload(); 
 }
-// la función changeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables movement_x y movement_y para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
-const changeDirection = function(event){
-    // console.log(e);
+
+// la función changeSnakeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables movement_x y movement_y para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
+const changeSnakeDirection = function(event){
     //  Esta condición verifica si la tecla presionada es la flecha hacia arriba (ArrowUp)
-    // si la velocidad en el eje Y no es igual a 1 
-    //Si ambas condiciones son verdaderas, se ejecuta el bloque de código dentro de esta condición.
-    if (event.key === "ArrowUp" && movement_y != 1) {
-        
-        movement_x = 0;//establece la velocidad en el eje X a 0, lo que significa que no hay movimiento horizontal.
-        movement_y = -1;//establece la velocidad en el eje Y a -1, lo que significa que el movimiento es hacia arriba.
     
+    // Si la velocidad en el eje Y no es igual a 1 
+    // Si ambas condiciones son verdaderas, se ejecuta el bloque de código dentro de esta condición.
+    if (event.key === "ArrowUp" && movement_y != 1) {
+        //establece la velocidad en el eje X a 0, lo que significa que no hay movimiento horizontal.
+        movement_x = 0;
+        //establece la velocidad en el eje Y a -1, lo que significa que el movimiento es hacia arriba.
+        movement_y = -1;
         //Esta condición verifica si la tecla presionada es la flecha hacia abajo ,y si la velocidad en el eje X no es igual a -1
-     } else if (event.key === "ArrowDown" && movement_y != -1) {
-        movement_x = 0;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
-        movement_y = 1;//establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
-     } else if (event.key === "ArrowLeft" && movement_x != 1) {
+    } else if (event.key === "ArrowDown" && movement_y != -1) {
+        //establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
+        movement_x = 0;
+        //establece la velocidad en el eje X a 1, lo que significa que el movimiento es hacia la derecha.
+        movement_y = 1;
+    } else if (event.key === "ArrowLeft" && movement_x != 1) {
         movement_x = -1;
         movement_y = 0;
-     } else if (event.key === "ArrowRight" && movement_x != -1) {
+    } else if (event.key === "ArrowRight" && movement_x != -1) {
         movement_x = 1;
         movement_y = 0;
-     } 
-     
-    //  initGame();
+    } 
 }
+
 // verifica si el juego ha terminado antes de inicializarlo
 const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
-    if(game_over) return handleGameOver ();//una declaración if ,se utiliza para salir inmediatamente de la función initGame y detener cualquier otro proceso de inici 
-
+    if(game_over) handleGameOver();
+    
+    // es una division HTML que se refiere a la comida y donde estara posicionada utilizando grid area
+    // la division de play-board debe contener el atributo display en grid para que funcione
     let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
-// snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
+    // snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
+
     if(snake_position_x === food_position_x && snake_position_y === food_position_y){
         changeFoodPosition();
         snake_body.push([food_position_x, food_position_y]);
         // score++Se incrementa la puntuacion del jugador en 1
         score ++;
         //el audio almacenado en el objeto audio y se play iniciar music
-        audio.play() 
+        audio_shot.play() 
         
         high_score =  score >= high_score ? score : high_score;
         localStorage.setItem("high-score", high_score);
@@ -129,7 +138,7 @@ const initGame = function() {
 changeFoodPosition(); 
 // initGame();
 interval_id = setInterval(initGame, delay_interval);
-document.addEventListener("keydown", changeDirection);
+document.addEventListener("keydown", changeSnakeDirection);
 
 
  
