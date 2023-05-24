@@ -12,6 +12,7 @@ const highScoreElement = document.querySelector(".high-score");
 // Aquí se crea una instancia de Audio y se le pasa el archivo de sonido
 const audio_shot = new Audio(shot_audio_path); 
 const audio_start = new Audio(apear_snake_audio_path)
+const game_audio = new Audio(game_audio_path)
 /*-------------------------------- VARIABLES -------------------------------------------*/
 
 // variable que controla el estado de game over
@@ -27,7 +28,9 @@ let movement_x = 0, movement_y = 0;
 // El id del intervalo
 let interval_id;
 // El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
-let delay_interval = 100;
+let delay_interval = 300;
+//
+let speeded_up = false
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
@@ -46,6 +49,9 @@ const changeFoodPosition = function() {
 
 // Esta funcion maneja lo que deberia pasar cuando se acaba el juego
 const handleGameOver = function() {
+    // Pausa la musica de fondo
+    game_audio.pause()
+    // Reproduce el audio de cuando mueres
     audio_start.play()
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
     //El parámetro interval_id hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
@@ -59,7 +65,6 @@ const handleGameOver = function() {
 // la función changeSnakeDirection cambia la dirección de movimiento en función de la tecla presionada. Modifica las variables movement_x y movement_y para reflejar la nueva dirección de movimiento, asegurándose de que no se produzcan cambios de
 const changeSnakeDirection = function(event){
     //  Esta condición verifica si la tecla presionada es la flecha hacia arriba (ArrowUp)
-    
     // Si la velocidad en el eje Y no es igual a 1 
     // Si ambas condiciones son verdaderas, se ejecuta el bloque de código dentro de esta condición.
     if (event.key === "ArrowUp" && movement_y != 1) {
@@ -141,9 +146,15 @@ const updateSnakeAndApple = function(){
 
     // "playBoard" con la cadena de plantilla (template string) "hmtlMarkup", que contiene los elementos HTML que representan la cabeza y el cuerpo de la serpiente.
     playBoard.innerHTML = hmtlMarkup;
+
 }
 
-// verifica si el juego ha terminado antes de inicializarlo
+// Esta funcion permite al juego reproducir la musica de fondo
+const playGameSound = function() {
+    game_audio.play()
+}
+
+// Es la funcion que controla el bucle del juego, se llama a traves de setInterval
 const gameLoop = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
     if(game_over) return handleGameOver();
@@ -157,6 +168,7 @@ const gameLoop = function() {
 const init = function() {
     changeFoodPosition(); 
     interval_id = setInterval(gameLoop, delay_interval);
+    setInterval(playGameSound, 500)
     document.addEventListener("keydown", changeSnakeDirection);
     
 }
