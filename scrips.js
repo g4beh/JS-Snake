@@ -46,6 +46,7 @@ const changeFoodPosition = function() {
 
 // Esta funcion maneja lo que deberia pasar cuando se acaba el juego
 const handleGameOver = function() {
+    audio_start.play()
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
     //El parámetro interval_id hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
     clearInterval(interval_id);
@@ -155,10 +156,9 @@ const gameLoop = function() {
 
 const init = function() {
     changeFoodPosition(); 
-    // GameLoop();
-    interval_id = setInterval(GameLoop, delay_interval);
+    interval_id = setInterval(gameLoop, delay_interval);
     document.addEventListener("keydown", changeSnakeDirection);
-
+    
 }
 
 
