@@ -15,37 +15,39 @@ const audio = new Audio(shot_audio_path);
 // variable que controla el estado de game over
 let game_over = false;
 // posiciones de la comida
-let foodX, foodY;
+let food_position_x, food_position_y;
 // Punto de aparicion del snake
-let snakeX = 5, snakeY = 10;
+let snake_position_x = 5, snake_position_y = 10;
 // Las posiciones del cuerpo de la serpiente se guardan en una lista
 let snake_body = [];
 // Variables que controlan hacia donde se mueve el snake, inicia en cero porque inicialmente no se mueve
 let movement_x = 0, movement_y = 0;
 // El id del intervalo
-let setIntervalId;
+let interval_id;
+// El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
+let delay_interval = 150
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
-let highScore = localStorage.getItem("high-score") || 0;
+let high_score = localStorage.getItem("high-score") || 0;
 // Establece la cadena de texto contenida en este elemeto, aqui se actualiza el puntaje
-highScoreElement.innerHTML = `High Score: ${highScore}`;
+highScoreElement.innerHTML = `High Score: ${high_score}`;
 
 
 /*-------------------------------- FUNCIONES -------------------------------------------*/
 // Genera coordenadas X e Y aleatorias para un alimento dentro de una cuadricula
 const changeFoodPosition = function() {
 // Genera un numero aleatorio entre 0 y 29 utilizando Math.random()
-    foodX = Math.floor(Math.random() * 30) + 1;
-    // Genera un número aleatorio para la coordenada Y del alimento. Sigue el mismo proceso que foodX para generar un número aleatorio entre 1 y 30, que se asigna a la variable foodY.
-    foodY = Math.floor(Math.random() * 30) + 1;
+    food_position_x = Math.floor(Math.random() * 30) + 1;
+    // Genera un número aleatorio para la coordenada Y del alimento. Sigue el mismo proceso que food_position_x para generar un número aleatorio entre 1 y 30, que se asigna a la variable food_position_y.
+    food_position_y = Math.floor(Math.random() * 30) + 1;
 }
 
-// Esta funcion maneja 
+// Esta funcion maneja lo que deberia pasar cuando se acaba el juego
 const handleGameOver = function() {
     //Esta línea utiliza la función clearInterval() para detener el intervalo de tiempo que se haya establecido previamente. 
-    //El parámetro setIntervalId hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
-    clearInterval (setIntervalId);
+    //El parámetro interval_id hace referencia a un identificador único que se utiliza para identificar el intervalo de tiempo que se desea detener. 
+    clearInterval(interval_id);
     // alert("Game Over");: Esta línea muestra una ventana emergente (alerta) con el mensaje "Game Over". La función alert() se utiliza para mostrar un mensaje en una ventana de diálogo simple en el navegador.
     location.reload(); //  recargar la página actual. Al llamar a location.reload()la página se volverá a cargar y reiniciará el juego.
 }
@@ -79,21 +81,21 @@ const initGame = function() {
     //Si la variable game_over es verdadera, la función handleGameOver() se llama y se detiene el proceso de inicialización del juego.
     if(game_over) return handleGameOver ();//una declaración if ,se utiliza para salir inmediatamente de la función initGame y detener cualquier otro proceso de inici 
 
-    let hmtlMarkup = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
-// snake_body.push([foodX, foodY]);: Se agrega un nuevo elemento a la matriz 
-    if(snakeX === foodX && snakeY === foodY){
+    let hmtlMarkup = `<div class="food" style="grid-area: ${food_position_y} / ${food_position_x}"></div>`;
+// snake_body.push([food_position_x, food_position_y]);: Se agrega un nuevo elemento a la matriz 
+    if(snake_position_x === food_position_x && snake_position_y === food_position_y){
         changeFoodPosition();
-        snake_body.push([foodX, foodY]);
+        snake_body.push([food_position_x, food_position_y]);
         // score++Se incrementa la puntuacion del jugador en 1
         score ++;
         //el audio almacenado en el objeto audio y se play iniciar music
         audio.play() 
         
-        highScore =  score >= highScore ? score : highScore;
-        localStorage.setItem("high-score", highScore);
+        high_score =  score >= high_score ? score : high_score;
+        localStorage.setItem("high-score", high_score);
         scoreElement.innerHTML = `Score: ${score}`
 
-        highScoreElement.innerHTML = `High Score: ${highScore}`;
+        highScoreElement.innerHTML = `High Score: ${high_score}`;
     }
     
     for(let i = snake_body.length - 1; i > 0; i--){
@@ -101,13 +103,13 @@ const initGame = function() {
     }
 
     // está fuera de los límites del tablero
-    snake_body[0] = [snakeX, snakeY];
+    snake_body[0] = [snake_position_x, snake_position_y];
 
-    snakeX += movement_x;
-    snakeY += movement_y;
+    snake_position_x += movement_x;
+    snake_position_y += movement_y;
 
     //  límites del tablero  , la variable "gameOver" se establece en verdadero (true).
-    if (snakeX <= 0 || snakeX > 30 || snakeY <= 0 || snakeY > 30) {
+    if (snake_position_x <= 0 || snake_position_x > 30 || snake_position_y <= 0 || snake_position_y > 30) {
       game_over = true; 
     }
 
@@ -126,7 +128,7 @@ const initGame = function() {
 
 changeFoodPosition(); 
 // initGame();
-setIntervalId = setInterval(initGame, 150);
+interval_id = setInterval(initGame, delay_interval);
 document.addEventListener("keydown", changeDirection);
 
 
