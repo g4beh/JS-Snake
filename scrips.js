@@ -30,7 +30,7 @@ let interval_id;
 // El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
 let delay_interval = 300;
 //
-let speeded_up = false
+let to_speed_up = false
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
@@ -85,6 +85,23 @@ const changeSnakeDirection = function(event){
         movement_x = 1;
         movement_y = 0;
     } 
+}
+
+// Esta funcion añade mas velocidad a la serpiente dependiendo del numero de manzanas consumidas
+const speedUp = function(){
+    
+    if (to_speed_up == true && score != 0 && score % 3 == 0 && delay_interval > 20){
+        delay_interval -= 20
+        clearInterval(interval_id)
+        interval_id = setInterval(gameLoop, delay_interval)
+        console.log(delay_interval)
+        to_speed_up = false
+    }
+
+    else if (score % 3 != 0 ){
+        to_speed_up = true
+    }
+
 }
 
 // Esta funcion chequea si se ha consumido una manzana y que deberia pasar cuando pasa eso
@@ -146,7 +163,8 @@ const updateSnakeAndApple = function(){
 
     // "playBoard" con la cadena de plantilla (template string) "hmtlMarkup", que contiene los elementos HTML que representan la cabeza y el cuerpo de la serpiente.
     playBoard.innerHTML = hmtlMarkup;
-
+ 
+    speedUp()
 }
 
 // Esta funcion permite al juego reproducir la musica de fondo
