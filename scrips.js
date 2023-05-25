@@ -29,8 +29,12 @@ let movement_x = 0, movement_y = 0;
 let interval_id;
 // El tiempor de retraso que sera usado en clearInterval para retrasar la funcion en milisegundos
 let delay_interval = 300;
-//
+// Si es posible aumentar la velocidad del snake
 let to_speed_up = false
+// Manzanas necesarias para activar la opcion de speed up
+let apples_to_speed_up = 4
+// Retraso minimo para la funcion speed up
+let minimum_delay_to_speed = 20
 // El puntaje, comienza en cero pero puede cambiarse
 let score = 0; 
 // El pontaje mas alto obtenido, se guarda de manera local, no tiene expiracion
@@ -90,7 +94,8 @@ const changeSnakeDirection = function(event){
 // Esta funcion añade mas velocidad a la serpiente dependiendo del numero de manzanas consumidas
 const speedUp = function(){
     
-    if (to_speed_up == true && score != 0 && score % 3 == 0 && delay_interval > 20){
+    // 
+    if (to_speed_up == true && score != 0 && score % apples_to_speed_up == 0 && delay_interval > minimum_delay_to_speed){
         delay_interval -= 20
         clearInterval(interval_id)
         interval_id = setInterval(gameLoop, delay_interval)
@@ -98,7 +103,7 @@ const speedUp = function(){
         to_speed_up = false
     }
 
-    else if (score % 3 != 0 ){
+    else if (score % apples_to_speed_up != 0 ){
         to_speed_up = true
     }
 
