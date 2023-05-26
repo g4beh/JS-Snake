@@ -67,7 +67,7 @@ body{
     /* para controlar el diseño y la alineación*/
     display: grid;
     /* Establece la plantilla de cuadrícula para el play-board. En este caso, crea una cuadrícula de 30 filas y 30 columnas*/
-    grid-template: repeat(30, 1fr) / repeat(30, 1fr);    
+    grid-template: repeat(30, 1fr) / repeat(30, 1fr);  
 }
 
 /* Aqui se cambia el color de la fruta */

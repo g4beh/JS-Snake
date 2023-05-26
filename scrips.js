@@ -3,6 +3,7 @@
 const shot_audio_path = "./Assets/RAFAGA DE DISPAROS - EFECTO DE SONIDO.mp3";
 const game_audio_path = "./Assets/el prostipirugolfo.mp3";
 const apear_snake_audio_path = "./Assets/negative_beeps-6008.mp3"
+const el_pirata_sound_path = "./Assets/Sonido pirata el paso del chavito.mp3"
 // Obtiene el primer elemento de html con la clase ".play-board"
 const playBoard = document.querySelector(".play-board");
 // Obtiene el primer elemento de html con la clase ".score"
@@ -13,6 +14,7 @@ const highScoreElement = document.querySelector(".high-score");
 const audio_shot = new Audio(shot_audio_path); 
 const audio_start = new Audio(apear_snake_audio_path)
 const game_audio = new Audio(game_audio_path)
+const pirata_audio = new Audio(el_pirata_sound_path)
 /*-------------------------------- VARIABLES -------------------------------------------*/
 
 // variable que controla el estado de game over
@@ -174,7 +176,8 @@ const updateSnakeAndApple = function(){
 
 // Esta funcion permite al juego reproducir la musica de fondo
 const playGameSound = function() {
-    game_audio.play()
+    // game_audio.play()
+    pirata_audio.play()
 }
 
 // Es la funcion que controla el bucle del juego, se llama a traves de setInterval
